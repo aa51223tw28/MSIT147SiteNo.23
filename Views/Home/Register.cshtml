@@ -3,33 +3,72 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Register</h1>
-<div class="d-flex align-content-center">
-    <span>使用者帳號：</span>
-    <input type="text" id="account"/>
-    <span class="text-danger" id="accountMessage"></span>
+<h1>Regiser</h1>
+<div class="row">
+    <div class="col-3">
+        <a href="~/home/index" id="linkPage">Index Page</a>
+    </div>
+
+
+    <div class="col-6">
+        <form method="Post" action="~/api/register">
+            <div class="mb-3">
+                <label for="InputUserName" class="form-label">姓名</label>
+                <input type="text" class="form-control" id="InputUserName" name="Name" />
+                <div id="nameHelp" class="form-text"></div>
+            </div>
+            <div class="mb-3">
+                <label for="InputEmail" class="form-label">電子郵件</label>
+                <input type="email" class="form-control" id="InputEmail" name="Email" />
+            </div>
+            <div class="mb-3">
+                <label for="InputAge" class="form-label">年紀</label>
+                <input type="number" class="form-control" id="InputAge" name="Age">
+            </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">選擇檔案</label>
+                <input class="form-control" type="file" id="formFile" name="FileName">
+            </div>
+            <button type="submit" class="btn btn-primary" id="buttonSubmit">Submit</button>
+        </form>
+        <div id="div1" class="alert alert-secondary mt-3"></div>
+    </div>
+    <div class="col-3"></div>
 </div>
+
 @section Scripts{
-    <script>                
-        const xhr=new XMLHttpRequest();
-        const accountInput = document.querySelector('#account');
-        const accountMessage = document.querySelector('#accountMessage');
-        
-        accountInput.addEventListener('blur',()=>{
-            const accountValue = accountInput.value;
-            xhr.open('GET', `/api/CheckAccount?account=${encodeURIComponent(accountValue)}`)
-            xhr.send();
-        })
-       
-        xhr.addEventListener('load',()=>{
-            const datas=JSON.parse(xhr.responseText)
-            console.log(datas)
-            if (datas.length > 0) {
-                accountMessage.textContent="已存在此帳號";
-            }else{
-                accountMessage.textContent="無此帳號";
+    <script>
+        const btnSubmit = document.querySelector('#buttonSubmit');
+        const page = document.querySelector('#linkPage');
+        const divAlert = document.querySelector('#div1');
+
+
+        page.addEventListener('click', event => {
+            if (!window.confirm("真的要去??")) {
+                event.preventDefault();
+                console.log('page');
             }
         })
+
+
+        btnSubmit.addEventListener('click',event=>{
+            event.preventDefault();//清除button type="submit"才開始寫ajax
+
+            const xhr=new XMLHttpRequest();
+            xhr.open('POST', '/api/Register')
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('Name=Mary&Age=30&Email=Mary@company.com');
+
+            xhr.addEventListener('load',()=>{
+                const data=xhr.responseText;
+                divAlert.innerHTML=data;
+            })
+
+        })
     </script>
+}
+
+@section Styles{
+    <style></style>
 }
 

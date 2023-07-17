@@ -1,7 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-    
+﻿
+@{
+    ViewData["Title"] = "TravelImage";
 }
+
 <div class="d-flex flex-wrap" id="cardContainer"></div>
 
 
@@ -9,7 +10,7 @@
     <img class="card-img-top" alt="..." id="cardImage" />
     <div class="card-body">
         <h5 class="card-title"></h5>
-        <p class="card-text"></p>        
+        <p class="card-text"></p>
     </div>
 </div>*@
 
@@ -74,14 +75,14 @@
 
             const content = xbody.substring(0, 100) + (xbody.length > 100 ? '...' : '');
             return (`
-            <div class="card m-2" style="width: 18rem;">
-              <img src="${text}" class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title">${stitle}</h5>
-                        <p class="card-text">${content}</p>
-              </div>
-            </div>
-          `);
+                    <div class="card m-2" style="width: 18rem;">
+                      <img src="${text}" class="card-img-top">
+                      <div class="card-body">
+                        <h5 class="card-title">${stitle}</h5>
+                                <p class="card-text">${content}</p>
+                      </div>
+                    </div>
+                  `);
         });
         console.log(data)
         document.querySelector('#cardContainer').innerHTML = data.join('');
@@ -92,3 +93,4 @@
     </script>
 
 }
+

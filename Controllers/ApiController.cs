@@ -51,9 +51,15 @@ namespace MSIT147Site.Controllers
             {
                 userName = "Guest";
             }
-            return Content("Hello" + userName);
+            System.Threading.Thread.Sleep(5000);
+            return Content("Hello " + userName);
 
             //測試https://localhost:44300/api/AjaxEvent?userName=123
+        }
+        [HttpPost]
+        public IActionResult Register(Members member)
+        {
+            return Content($"Hello{member.Name}");
         }
     }
 }

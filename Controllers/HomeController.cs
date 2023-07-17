@@ -21,16 +21,27 @@ namespace MSIT147Site.Controllers
         {
             return View();
         }
+
+        public IActionResult TravelImage()
+        {
+            return View();
+        }
+
         public IActionResult Address()
         {
             return View();
         }
 
-        public IActionResult Register()
+        public IActionResult Login()
         {
             return View();
         }
         public IActionResult AjaxEvent()
+        {
+            return View();
+        }
+
+        public IActionResult Register()
         {
             return View();
         }

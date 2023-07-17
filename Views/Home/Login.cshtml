@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+<div class="d-flex align-content-center">
+    <span>使用者帳號：</span>
+    <input type="text" id="account"/>
+    <span class="text-danger" id="accountMessage"></span>
+</div>
+@section Scripts{
+    <script>                
+        const xhr=new XMLHttpRequest();
+        const accountInput = document.querySelector('#account');
+        const accountMessage = document.querySelector('#accountMessage');
+        
+        accountInput.addEventListener('blur',()=>{
+            const accountValue = accountInput.value;
+            xhr.open('GET', `/api/CheckAccount?account=${encodeURIComponent(accountValue)}`)
+            xhr.send();
+        })
+       
+        xhr.addEventListener('load',()=>{
+            const datas=JSON.parse(xhr.responseText)
+            console.log(datas)
+            if (datas.length > 0) {
+                accountMessage.textContent="已存在此帳號";
+            }else{
+                accountMessage.textContent="無此帳號";
+            }
+        })
+    </script>
+}
+
