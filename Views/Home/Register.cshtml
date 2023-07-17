@@ -11,7 +11,7 @@
 
 
     <div class="col-6">
-        <form method="Post" action="~/api/register">
+        <form method="Post" action="~/api/register" name="registerForm">
             <div class="mb-3">
                 <label for="InputUserName" class="form-label">姓名</label>
                 <input type="text" class="form-control" id="InputUserName" name="Name" />
@@ -27,7 +27,7 @@
             </div>
             <div class="mb-3">
                 <label for="formFile" class="form-label">選擇檔案</label>
-                <input class="form-control" type="file" id="formFile" name="FileName">
+                <input class="form-control" type="file" id="formFile" name="Photo">
             </div>
             <button type="submit" class="btn btn-primary" id="buttonSubmit">Submit</button>
         </form>
@@ -54,10 +54,14 @@
         btnSubmit.addEventListener('click',event=>{
             event.preventDefault();//清除button type="submit"才開始寫ajax
 
+            const formData = new FormData(document.registerForm)
+
             const xhr=new XMLHttpRequest();
             xhr.open('POST', '/api/Register')
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send('Name=Mary&Age=30&Email=Mary@company.com');
+            //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            //xhr.send('Name=Mary&Age=30&Email=Mary@company.com');
+            xhr.send(formData)
+
 
             xhr.addEventListener('load',()=>{
                 const data=xhr.responseText;

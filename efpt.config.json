@@ -24,7 +24,7 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": "msi.Demo.dbo",
+   "UiHint": "desktop-rae7e6c.Demo.dbo",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,

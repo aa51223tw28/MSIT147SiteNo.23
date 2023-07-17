@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using MSIT147Site.Models;
 
 namespace MSIT147Site.Controllers
@@ -6,10 +7,13 @@ namespace MSIT147Site.Controllers
     public class ApiController : Controller
     {
         private readonly DemoContext _context;
+        private readonly IWebHostEnvironment _host;
 
-        public ApiController()
+        public ApiController(IWebHostEnvironment host)
         {
             _context = new DemoContext();
+            _host = host;
+
         }
         public IActionResult Index()
         {
@@ -57,9 +61,38 @@ namespace MSIT147Site.Controllers
             //測試https://localhost:44300/api/AjaxEvent?userName=123
         }
         [HttpPost]
-        public IActionResult Register(Members member)
+        public IActionResult Register(Members member,IFormFile Photo)
         {
-            return Content($"Hello{member.Name}");
+            //return Content($"Hello{member.Name}");
+            //string photoInfo = $"{Photo.FileName}-{Photo.Length}-{Photo.ContentType}";
+            string rootPath = Path.Combine(_host.WebRootPath, "uploads", Photo.FileName);
+            using(var fileStream=new FileStream(rootPath, FileMode.Create))
+            {
+                Photo.CopyTo(fileStream);
+            }
+
+            //寫進資料庫
+            member.FileName = Photo.FileName;
+            byte[]? photoByte = null;
+            using (var memorySteam=new MemoryStream())
+            {
+                Photo.CopyTo(memorySteam);
+                photoByte = memorySteam.ToArray();                
+            }
+            member.FileData = photoByte;
+
+            _context.Members.Add(member);
+            _context.SaveChanges();
+            return Content(rootPath);
+        }
+
+
+        //讀二進位的圖
+        public IActionResult GetImageByte(int id = 0)
+        {
+            Members? _member = _context.Members.Find(id);
+            byte[]? img = _member.FileData;
+            return File(img, "image/jpeg");
         }
     }
 }
