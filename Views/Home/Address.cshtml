@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Address";
+}
+
+<h1>Address</h1>
+<select id="selectCity">
+
+</select>
+<select id="selectSite">
+</select>
+<select id="selectStreet">
+</select>
+@section Scripts{
+    <script>
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '/api/cities');
+        xhr.send();
+        xhr.addEventListener('load', () => {
+            const datas = JSON.parse(xhr.responseText);
+            var cities = datas.map(city => {
+                return (`<option value="${city}">${city}</option>`)
+            })
+            console.log(cities)
+            document.querySelector('#selectCity').innerHTML = cities.join("");
+        })
+
+
+        //抓取變更縣市
+        const selectCity = document.querySelector('#selectCity');
+
+        selectCity.addEventListener('change', () => {
+
+            //變更後先清空
+            selectSite.innerHTML = '';
+            selectStreet.innerHTML = '';
+
+            const selectoption = selectCity.value;
+            //console.log(selectoption)
+            const xhr=new XMLHttpRequest();
+            xhr.open('GET', `/api/Districts?city=${encodeURIComponent(selectoption)}`);
+            xhr.send();
+            xhr.addEventListener('load',()=>{
+                const datas=JSON.parse(xhr.responseText);
+                var sites=datas.map(site=>{
+                    return (`<option value="${site}">${site}</option>`)
+                })
+                console.log(sites)
+                document.querySelector('#selectSite').innerHTML = sites.join("");
+            })
+        })
+
+       //抓取變更區
+        const selectSite = document.querySelector('#selectSite')
+        selectSite.addEventListener('change',()=>{
+            const selectoption=selectSite.value;
+            const xhr =new XMLHttpRequest();
+            xhr.open('GET', `/api/Streets?district=${encodeURIComponent(selectoption)}`);
+            xhr.send();
+            xhr.addEventListener('load',()=>{
+                const datas=JSON.parse(xhr.responseText);
+                var streets=datas.map(street=>{
+                    return (`<option value="${street}">${street}</option>`)
+                })
+                document.querySelector('#selectStreet').innerHTML = streets.join("");
+            })
+        })
+
+    </script>
+}

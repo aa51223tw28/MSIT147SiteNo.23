@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    
+}
+<div class="d-flex flex-wrap" id="cardContainer"></div>
+
+
+@*<div class="card" style="width: 18rem;">
+    <img class="card-img-top" alt="..." id="cardImage" />
+    <div class="card-body">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>        
+    </div>
+</div>*@
+
+@section Scripts{
+
+
+    <script src="~/datas/Travel.js"></script>
+
+    <script>
+        const imageUrl = spots.CommonFormat.Section[0].file.img[0].text
+        //console.log(imageUrl);
+        const title = spots.CommonFormat.Section[0].stitle
+        //console.log(title);
+        const content = spots.CommonFormat.Section[0].xbody.substring(0, 100);
+        //console.log(content);
+
+        //document.getElementById('cardImage').src = imageUrl;
+        //document.querySelector('.card-title').textContent = title;
+        //document.querySelector('.card-text').textContent = content;
+
+        //方法一
+        //const cardContainer = document.getElementById('cardContainer');
+
+        //for (let i = 0, max = spots.CommonFormat.Section.length ;i < max; i++) {
+        //    const card = document.createElement('div');
+        //    card.classList.add('card');
+        //    card.classList.add('m-2');
+        //    card.style.width = '18rem';
+
+        //    const image = document.createElement('img');
+        //    image.src = spots.CommonFormat.Section[i].file.img[0].text;
+        //    image.classList.add('card-img-top');
+
+        //    const cardBody = document.createElement('div');
+        //    cardBody.classList.add('card-body');
+
+        //    const cardTitle = document.createElement('h5');
+        //    cardTitle.classList.add('card-title');
+        //    cardTitle.textContent = spots.CommonFormat.Section[i].stitle
+
+        //    const cardText = document.createElement('p');
+        //    cardText.classList.add('card-text');
+        //    cardText.textContent = spots.CommonFormat.Section[i].xbody.substring(0, 100)+"...";
+
+        //    cardBody.appendChild(cardTitle);
+        //    cardBody.appendChild(cardText);
+
+        //    card.appendChild(image);
+        //    card.appendChild(cardBody);
+
+        //    cardContainer.appendChild(card);
+        //}
+
+        //方法二
+
+        const data = spots.CommonFormat.Section.map(section => {
+            const { stitle, xbody, file } = section;
+            let text = '';
+            if (file.img.length > 0) {
+                text = file.img[0].text;
+            }
+
+            const content = xbody.substring(0, 100) + (xbody.length > 100 ? '...' : '');
+            return (`
+            <div class="card m-2" style="width: 18rem;">
+              <img src="${text}" class="card-img-top">
+              <div class="card-body">
+                <h5 class="card-title">${stitle}</h5>
+                        <p class="card-text">${content}</p>
+              </div>
+            </div>
+          `);
+        });
+        console.log(data)
+        document.querySelector('#cardContainer').innerHTML = data.join('');
+
+
+
+
+    </script>
+
+}
