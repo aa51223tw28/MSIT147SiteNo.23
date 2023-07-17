@@ -28,10 +28,12 @@
             <div class="mb-3">
                 <label for="formFile" class="form-label">選擇檔案</label>
                 <input class="form-control" type="file" id="formFile" name="Photo">
+                <img id="previewimg" src="#" style="width:100px; height: 100px;" class="mt-3">
             </div>
             <button type="submit" class="btn btn-primary" id="buttonSubmit">Submit</button>
         </form>
         <div id="div1" class="alert alert-secondary mt-3"></div>
+        
     </div>
     <div class="col-3"></div>
 </div>
@@ -43,12 +45,20 @@
         const divAlert = document.querySelector('#div1');
 
 
-        page.addEventListener('click', event => {
-            if (!window.confirm("真的要去??")) {
-                event.preventDefault();
-                console.log('page');
+        //預覽圖片
+        $("#formFile").change(function () {
+            readURL(this);
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#previewimg").attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);//readAsDataURL 方法將圖片轉換為數據 URL。
             }
-        })
+        }
 
 
         btnSubmit.addEventListener('click',event=>{

@@ -32,6 +32,11 @@ namespace MSIT147Site.Controllers
             return View();
         }
 
+        public IActionResult AddressFetch()
+        {
+            return View();
+        }
+
         public IActionResult Login()
         {
             return View();

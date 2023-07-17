@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewData["Title"] = "AddressFetch";
+}
+
+<h1>AddressFetch</h1>
+
+<select id="selectCity"></select>
+<select id="selectSite"></select>
+<select id="selectStreet"></select>
+
+@section Scripts{
+    <script>
+        const selectCity = document.querySelector('#selectCity');
+        const selectSite = document.querySelector('#selectSite')
+        const selectStreet = document.querySelector('#selectStreet')
+
+
+        //取得城市資料
+        async function getCities(){
+            const response = await fetch('/api/cities');
+            const cities=await response.json();
+            //console.log(cities);
+
+            const cityOptions=cities.map(city=>{
+                return (`<option value="${city}">${city}</option>`)
+            });
+
+            selectCity.innerHTML = cityOptions.join('');
+        }
+
+        //取的區域資料
+        async function getDistricts(city) {
+            const response = await fetch(`/api/Districts?city=${encodeURIComponent(city)}`)
+            const districts=await response.json();
+
+            const districtOptions = districts.map(district=>{
+                return (`<option value="${district}">${district}</option>`)
+            });
+            selectSite.innerHTML = districtOptions.join('');
+        }
+
+        //選擇城市變更區域
+        selectCity.addEventListener('change',async()=>{
+            //變更後先清空
+            selectSite.innerHTML = '';
+            selectStreet.innerHTML = '';
+
+            const seletedCity=selectCity.value;
+            await getDistricts(seletedCity)
+        })
+
+        //取的街資料
+        async function getStreets(district) {
+            const response = await fetch(`/api/Streets?district=${encodeURIComponent(district)}`)
+            const streets=await response.json();
+
+            const streetOptions = streets.map(street => {
+                return (`<option value="${street}">${street}</option>`)
+            });
+            selectStreet.innerHTML = streetOptions.join('');
+        }
+
+        //選擇區變更街
+        selectSite.addEventListener('change', async () => {
+            const selectedSite = selectSite.value;
+            await getStreets(selectedSite);
+        })
+        
+
+
+        getCities();
+    </script>
+}
