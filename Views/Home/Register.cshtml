@@ -60,25 +60,59 @@
             }
         }
 
+        //fetch + async await
+        btnSubmit.addEventListener('click', async (event) => {
+            event.preventDefault();
 
-        btnSubmit.addEventListener('click',event=>{
-            event.preventDefault();//清除button type="submit"才開始寫ajax
+            const formData = new FormData(document.registerForm);//<form name="registerForm"
+                        
+            const response = await fetch('@Url.Content("~/api/register")', {
+                body: formData,
+                method: 'POST'
+            });
+            const data = await response.text();
+            divAlert.innerHTML = data;
 
-            const formData = new FormData(document.registerForm)
-
-            const xhr=new XMLHttpRequest();
-            xhr.open('POST', '/api/Register')
-            //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            //xhr.send('Name=Mary&Age=30&Email=Mary@company.com');
-            xhr.send(formData)
-
-
-            xhr.addEventListener('load',()=>{
-                const data=xhr.responseText;
-                divAlert.innerHTML=data;
-            })
 
         })
+
+
+        //fetch
+        //btnSubmit.addEventListener('click', (event) => {
+        //    event.preventDefault();
+
+        //    const formData = new FormData(document.registerForm);<form name="registerForm"
+                        
+        //    fetch('@Url.Content("~/api/register")',{
+        //        body: formData,
+        //        method: 'POST'
+        //    })
+        //    .then(response =>response.text())
+        //    .then(data => {
+        //            divAlert.innerHTML = data;
+        //    })
+
+        //})
+
+
+        //btnSubmit.addEventListener('click',event=>{
+        //    event.preventDefault();//清除button type="submit"才開始寫ajax
+
+        //    const formData = new FormData(document.registerForm)
+
+        //    const xhr=new XMLHttpRequest();
+        //    xhr.open('POST', '/api/Register')
+        //    //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        //    //xhr.send('Name=Mary&Age=30&Email=Mary@company.com');
+        //    xhr.send(formData)
+
+
+        //    xhr.addEventListener('load',()=>{
+        //        const data=xhr.responseText;
+        //        divAlert.innerHTML=data;
+        //    })
+
+        //})
     </script>
 }
 

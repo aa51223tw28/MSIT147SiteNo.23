@@ -23,6 +23,15 @@ namespace MSIT147Site.Controllers
 
             //return Content("Hello World!!", "application/msword");
         }
+        public IActionResult IndexjQery(string name,int age=20)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = "Guest";
+            }
+            return Content($"Hello {name}, You are {age} years old.");
+            
+        }
 
         public IActionResult Cities()
         {

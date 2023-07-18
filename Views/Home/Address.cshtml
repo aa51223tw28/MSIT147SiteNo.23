@@ -111,7 +111,7 @@
         function LoadRoads() {
             const district = selDistrict.options[selDistrict.selectedIndex].value;
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', `/api/roads?SiteId=${district}`);
+            xhr.open('GET', `@Url.Content("~/api/roads?SiteId=")${district}`);
             xhr.send();
 
             xhr.addEventListener('load', () => {

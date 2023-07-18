@@ -60,6 +60,24 @@ namespace MSIT147Site.Controllers
             return View();
         }
 
+        public IActionResult History()//Ajax三代寫法範例參考
+        {
+            return View();
+        }
+        public IActionResult jQuery()
+        {
+            return View();
+        }
+
+        public IActionResult Partail1()
+        {
+            return PartialView();
+        }
+        public IActionResult Partail2()
+        {
+            ViewBag.message = "Hello Partail View From Action";
+            return PartialView();
+        }
         public IActionResult Privacy()
         {
             return View();
