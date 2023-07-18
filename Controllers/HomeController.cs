@@ -78,11 +78,20 @@ namespace MSIT147Site.Controllers
             ViewBag.message = "Hello Partail View From Action";
             return PartialView();
         }
+        public IActionResult ShipperCors()
+        {            
+            return View();
+        }
+
+        public IActionResult DataTables()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
         }
-
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
